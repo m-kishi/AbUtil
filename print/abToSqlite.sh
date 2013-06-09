@@ -38,26 +38,12 @@ CREATE TABLE expenses (
 EOF
 
 #INSERT INTO
-while read line;
-do
-    date=`echo ${line} | awk 'BEGIN{FS=","};{print $1}' | sed -e 's/"//g'`
-    name=`echo ${line} | awk 'BEGIN{FS=","};{print $2}' | sed -e 's/"//g'`
-    type=`echo ${line} | awk 'BEGIN{FS=","};{print $3}' | sed -e 's/"//g'`
-    cost=`echo ${line} | awk 'BEGIN{FS=","};{print $4}' | sed -e 's/"//g'`
-    cat >>"${command}" <<_EOF_
-INSERT INTO expenses (
-    "date"
-  , "name"
-  , "type"
-  , "cost"
-) VALUES (
-    '${date}'
-  , '${name}'
-  , '${type}'
-  , '${cost}'
-);
-_EOF_
-done <"${ab_new}"
+"${wk_dir}"/abToSqlite.rb
+if [ $? -ne 0 ];
+then
+    echo "ERR : abToSqlite.rb aborted"
+    exit 1
+fi
 
 #END TRANSACTION
 echo "END TRANSACTION;" >>"${command}"
