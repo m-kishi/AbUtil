@@ -23,6 +23,7 @@ fi
 
 #SQlite3用コマンドファイル
 command="${wk_dir}/command.sql"
+export command
 
 #BEGIN TRANSACTION
 echo "BEGIN TRANSACTION;" >"${command}"
