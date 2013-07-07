@@ -5,6 +5,9 @@ require 'sqlite3'
 require 'thinreports'
 require './abCurrency.rb'
 
+######################################################################
+# 収支表(月次)
+######################################################################
 report = ThinReports::Report.new(:layout => 'summary_list')
 report.layout.config.list(:summary_list) do
 
@@ -30,7 +33,7 @@ report.layout.config.list(:summary_list) do
 end
 
 cnt = 0
-sql = File.open('select.sql').read
+sql = File.open('summary.sql').read
 SQLite3::Database.new('abook.sqlite3') do |db|
   db.results_as_hash = true
   db.execute(sql) do |row|
@@ -56,7 +59,7 @@ SQLite3::Database.new('abook.sqlite3') do |db|
       ttal = row["ttal"].to_i
       earn = row["earn"].to_i
       blnc = row["blnc"].to_i
-      
+
       list.add_row :month => "#{y}/#{m}",
                    :food => food.to_currency,
                    :otfd => otfd.to_currency,
@@ -73,7 +76,7 @@ SQLite3::Database.new('abook.sqlite3') do |db|
                    :ttal => ttal.to_currency,
                    :earn => earn.to_currency,
                    :blnc => blnc.to_currency
-      
+
       list.store.total[:food] += food
       list.store.total[:otfd] += otfd
       list.store.total[:good] += good
@@ -92,5 +95,68 @@ SQLite3::Database.new('abook.sqlite3') do |db|
     end
   end
 end
+report.generate_file('summary.pdf')
 
-report.generate_file('abook.pdf')
+
+######################################################################
+# 収支表(年次)
+######################################################################
+report = ThinReports::Report.new(:layout => 'balance_list')
+report.layout.config.list(:balance_list) do
+
+  use_stores :sub   => Hash.new(0),
+             :total => Hash.new(0)
+
+  events.on :page_footer_insert do |e|
+    e.section.item(:earn   ).value(e.store.sub[:earn   ].to_currency)
+    e.section.item(:bonus  ).value(e.store.sub[:bonus  ].to_currency)
+    e.section.item(:expense).value(e.store.sub[:expense].to_currency)
+    e.section.item(:special).value(e.store.sub[:special].to_currency)
+    e.section.item(:balance).value(e.store.sub[:balance].to_currency)
+    e.store.sub = Hash.new(0)
+  end
+
+  events.on :footer_insert do |e|
+    e.section.item(:earn   ).value(e.store.total[:earn   ].to_currency)
+    e.section.item(:bonus  ).value(e.store.total[:bonus  ].to_currency)
+    e.section.item(:expense).value(e.store.total[:expense].to_currency)
+    e.section.item(:special).value(e.store.total[:special].to_currency)
+    e.section.item(:balance).value(e.store.total[:balance].to_currency)
+  end
+end
+report.start_new_page
+
+sql = File.open('balance.sql').read
+SQLite3::Database.new('abook.sqlite3') do |db|
+  db.results_as_hash = true
+  db.execute(sql) do |row|
+    report.page.list(:balance_list) do |list|
+      year    = row["year"   ]
+      earn    = row["earn"   ].to_i
+      bonus   = row["bonus"  ].to_i
+      expense = row["expense"].to_i
+      special = row["special"].to_i
+      balance = row["balance"].to_i
+
+      list.add_row :year    => year,
+                   :earn    => earn   .to_currency,
+                   :bonus   => bonus  .to_currency,
+                   :expense => expense.to_currency,
+                   :special => special.to_currency,
+                   :balance => balance.to_currency
+
+      list.store.sub[:earn]    += earn
+      list.store.sub[:bonus]   += bonus
+      list.store.sub[:expense] += expense
+      list.store.sub[:special] += special
+      list.store.sub[:balance] += balance
+
+      list.store.total[:earn]    += earn
+      list.store.total[:bonus]   += bonus
+      list.store.total[:expense] += expense
+      list.store.total[:special] += special
+      list.store.total[:balance] += balance
+    end
+  end
+end
+report.generate_file('balance.pdf')

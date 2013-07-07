@@ -56,21 +56,28 @@ then
 fi
 
 #帳票を出力
-ab_report="${wk_dir}/abook.pdf"
+summary_pdf="${wk_dir}/summary.pdf"
+balance_pdf="${wk_dir}/balance.pdf"
 "${wk_dir}"/abReport.rb
 if [ $? -ne 0 ];
 then
   echo "ERR : abReport.rb failed"
   exit 1
-elif [ ! -f "${ab_report}" ];
+elif [ ! -f "${summary_pdf}" ];
 then
-  echo "ERR : `basename ${ab_report}` not exist"
+  echo "ERR : `basename ${summary_pdf}` not exist"
+  exit 1
+elif [ ! -f "${balance_pdf}" ];
+then
+  echo "ERR : `basename ${balance_pdf}` not exist"
   exit 1
 fi
-echo "INF : `basename ${ab_report}` printed"
+echo "INF : `basename ${summary_pdf}` printed"
+echo "INF : `basename ${balance_pdf}` printed"
 
 #帳票を表示
-open "${ab_report}"
+open "${summary_pdf}"
+open "${balance_pdf}"
 
 #終了
 exit 0
