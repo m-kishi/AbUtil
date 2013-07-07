@@ -33,7 +33,7 @@ report.layout.config.list(:summary_list) do
 end
 
 cnt = 0
-sql = File.open('select.sql').read
+sql = File.open('summary.sql').read
 SQLite3::Database.new('abook.sqlite3') do |db|
   db.results_as_hash = true
   db.execute(sql) do |row|
@@ -95,7 +95,7 @@ SQLite3::Database.new('abook.sqlite3') do |db|
     end
   end
 end
-report.generate_file('abook.pdf')
+report.generate_file('summary.pdf')
 
 
 ######################################################################
