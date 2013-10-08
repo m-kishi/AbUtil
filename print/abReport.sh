@@ -3,7 +3,7 @@
 #Gemセット
 #$ gem install sqlite3 thinreports --no-ri --no-rdoc
 source "${HOME}/.rvm/scripts/rvm"
-rvm 1.9.2@ab_maintenance
+rvm 1.9.2@AbUtils
 
 #作業ディレクトリ
 wk_dir="${HOME}/code/AbUtils/print"
