@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 #作業ディレクトリ
-wk_dir="${HOME}/code/AbUtils/maintenance"
+wk_dir="${HOME}/code/AbUtils/maint"
 if [ ! -d "${wk_dir}" ];
 then
   echo "ERR : ${wk_dir} not exist"
@@ -37,10 +37,10 @@ then
   rm "${pairlist}"
   echo "INF : `basename ${pairlist}` deleted"
 fi
-"${wk_dir}"/abMaintenance.rb > "${pairlist}"
+"${wk_dir}"/abMaint.rb > "${pairlist}"
 if [ $? -ne 0 ];
 then
-  echo "ERR : abMaintenance.rb failed"
+  echo "ERR : abMaint.rb failed"
   exit 1
 elif [ ! -f "${pairlist}" ];
 then
