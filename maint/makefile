@@ -1,5 +1,5 @@
 all: *.rb *.sh
-	./abMaintenance.sh
+	./abMaint.sh
 
 clean: *.db *.txt
 	rm *.db
