@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 #作業ディレクトリ
-wk_dir="${HOME}/code/AbUtils/maint"
+wk_dir=`dirname $0`
 if [ ! -d "${wk_dir}" ];
 then
   echo "ERR : ${wk_dir} not exist"
