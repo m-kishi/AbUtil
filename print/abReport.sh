@@ -6,7 +6,7 @@ source "${HOME}/.rvm/scripts/rvm"
 rvm 1.9.2@AbUtils
 
 #作業ディレクトリ
-wk_dir="${HOME}/code/AbUtils/print"
+wk_dir=`dirname $0`
 if [ ! -d "${wk_dir}" ];
 then
   echo "ERR : ${wk_dir} not exist"
