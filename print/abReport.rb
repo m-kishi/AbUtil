@@ -95,7 +95,7 @@ SQLite3::Database.new('abook.sqlite3') do |db|
     end
   end
 end
-report.generate_file('summary.pdf')
+report.generate(:filename => 'summary.pdf')
 
 
 ######################################################################
@@ -159,4 +159,4 @@ SQLite3::Database.new('abook.sqlite3') do |db|
     end
   end
 end
-report.generate_file('balance.pdf')
+report.generate(:filename => 'balance.pdf')
