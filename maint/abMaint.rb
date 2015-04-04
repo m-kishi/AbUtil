@@ -1,28 +1,43 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
 
-#支出情報構造体
-Expense = Struct.new(:date, :name, :type, :cost)
+require './abExten.rb'
 
-#abook.db読み込み
+# 支出情報構造体
+Expense = Struct.new(:date, :name, :type, :cost) do
+  def curr
+    cost.to_currency
+  end
+end
+
+# abook.db読み込み
 expenses = []
 File.open("abook.db", "r") do |f|
   f.each_line do |line|
     line = line.gsub("\"", "")
     args = line.split(",")
-    expenses << Expense.new(*args)
+    expenses << Expense.new(args[0], args[1], args[2], args[3].to_i)
   end
 end
 
-#名前、種別でグループ化
-pairs = []
-gname_obj = expenses.group_by {|exp| exp.name }
-gname_obj.each_key do |kname|
-  gtype_obj = gname_obj[kname].group_by {|exp| exp.type }
-  gtype_obj.each_key do |ktype|
-    pairs << "#{kname}\t#{ktype}"
+# 名前、種別でグループ化
+gexps = []
+gnobj = expenses.group_by {|e| e.name }
+gnobj.each_key do |nkey|
+  gtobj = gnobj[nkey].group_by {|e| e.type }
+  gtobj.each_key do |tkey|
+    cost = gtobj[tkey].inject(0) {|sum, e| sum + e.cost }
+    gexps << Expense.new(nil, nkey, tkey, cost)
   end
 end
 
-#出力
-pairs.sort.each {|elem| puts elem }
+# 出力
+nmax = gexps.max_by {|e| e.name.mb_size } .name.mb_size
+tmax = gexps.max_by {|e| e.type.mb_size } .type.mb_size
+cmax = gexps.max_by {|e| e.curr.mb_size } .curr.mb_size
+gexps.sort_by {|e| e.name }.each do |e|
+  name = e.name.mb_ljust(nmax)
+  type = e.type.mb_ljust(tmax)
+  cost = e.curr.mb_rjust(cmax)
+  puts "#{name} #{type} #{cost}"
+end

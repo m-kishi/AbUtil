@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # -*- encoding: utf-8 -*-
 
-#作業ディレクトリ
+# 作業ディレクトリ
 wk_dir=`dirname $0`
 if [ ! -d "${wk_dir}" ];
 then
@@ -9,7 +9,7 @@ then
   exit 1
 fi
 
-#最新のabook.dbを取得
+# 最新のabook.dbを取得
 ab_new="${wk_dir}/abook.db"
 if [ -f "${ab_new}" ];
 then
@@ -30,24 +30,24 @@ then
 fi
 echo "INF : `basename ${ab_src}` copied"
 
-#ペアリスト生成
-pairlist="${wk_dir}/pair.txt"
-if [ -f "${pairlist}" ];
+# 出力生成
+output="${wk_dir}/output.txt"
+if [ -f "${output}" ];
 then
-  rm "${pairlist}"
-  echo "INF : `basename ${pairlist}` deleted"
+  rm "${output}"
+  echo "INF : `basename ${output}` deleted"
 fi
-"${wk_dir}"/abMaint.rb > "${pairlist}"
+"${wk_dir}"/abMaint.rb > "${output}"
 if [ $? -ne 0 ];
 then
   echo "ERR : abMaint.rb failed"
   exit 1
-elif [ ! -f "${pairlist}" ];
+elif [ ! -f "${output}" ];
 then
-  echo "ERR : `basename ${pairlist}` not exist"
+  echo "ERR : `basename ${output}` not exist"
   exit 1
 fi
-echo "INF : pairlist generated"
+echo "INF : output generated"
 
-#終了
+# 終了
 exit 0
