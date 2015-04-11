@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# -*- encoding: utf-8 -*-
 
 # 作業ディレクトリ
 wk_dir=`dirname $0`
@@ -9,14 +8,16 @@ then
   exit 1
 fi
 
-# 最新のabook.dbを取得
+# 既存DBファイルを削除
 ab_new="${wk_dir}/abook.db"
 if [ -f "${ab_new}" ];
 then
   rm "${ab_new}"
   echo "INF : `basename ${ab_new}` deleted"
 fi
-ab_src="/Users/m-kishi/Dropbox/App/Abook/Abook.db"
+
+# 最新のAbook.dbを取得
+ab_src="${HOME}/Dropbox/App/Abook/Abook.db"
 if [ ! -f "${ab_src}" ];
 then
   echo "ERR : ${ab_src} not exist"
@@ -30,24 +31,13 @@ then
 fi
 echo "INF : `basename ${ab_src}` copied"
 
-# 出力生成
-output="${wk_dir}/output.txt"
-if [ -f "${output}" ];
-then
-  rm "${output}"
-  echo "INF : `basename ${output}` deleted"
-fi
-"${wk_dir}"/abMaint.rb > "${output}"
+# チェック実行
+"${wk_dir}"/abDbchk.rb
 if [ $? -ne 0 ];
 then
-  echo "ERR : abMaint.rb failed"
-  exit 1
-elif [ ! -f "${output}" ];
-then
-  echo "ERR : `basename ${output}` not exist"
+  echo "ERR : abDbchk failed"
   exit 1
 fi
-echo "INF : output generated"
 
 # 終了
 exit 0
