@@ -16,7 +16,7 @@ then
   rm "${ab_new}"
   echo "INF : `basename ${ab_new}` deleted"
 fi
-ab_src="/Users/m-kishi/Dropbox/App/Abook/Abook.db"
+ab_src="${HOME}/Dropbox/App/Abook/Abook.db"
 if [ ! -f "${ab_src}" ];
 then
   echo "ERR : ${ab_src} not exist"
