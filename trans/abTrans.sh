@@ -31,23 +31,23 @@ fi
 echo "INF : `basename ${ab_src}` copied"
 
 # 出力生成
-output="${wk_dir}/output.txt"
-if [ -f "${output}" ];
+trans="${wk_dir}/trans.db"
+if [ -f "${trans}" ];
 then
-  rm "${output}"
-  echo "INF : `basename ${output}` deleted"
+  rm "${trans}"
+  echo "INF : `basename ${trans}` deleted"
 fi
-"${wk_dir}"/abMaint.rb > "${output}"
+"${wk_dir}"/abTrans.rb > "${trans}"
 if [ $? -ne 0 ];
 then
-  echo "ERR : abMaint.rb failed"
+  echo "ERR : abTrans.rb failed"
   exit 1
-elif [ ! -f "${output}" ];
+elif [ ! -f "${trans}" ];
 then
-  echo "ERR : `basename ${output}` not exist"
+  echo "ERR : `basename ${trans}` not exist"
   exit 1
 fi
-echo "INF : output generated"
+echo "INF : translation completed"
 
 # 終了
 exit 0
