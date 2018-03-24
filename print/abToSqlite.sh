@@ -3,22 +3,22 @@
 #作業用ディレクトリ
 if [ -z "${wk_dir}" ];
 then
-    echo "ERR : \$wk_dir not exported"
-    exit 1
+  echo "ERR:\$wk_dir not exported"
+  exit 1
 fi
 
 #abook.db
 if [ -z "${ab_new}" ];
 then
-    echo "ERR : \$ab_new not exported"
-    exit 1
+  echo "ERR:\$ab_new not exported"
+  exit 1
 fi
 
 #abook.sqlite3
 if [ -z "${ab_sqlite}" ];
 then
-    echo "ERR : \$ab_sqlite not exported"
-    exit 1
+  echo "ERR:\$ab_sqlite not exported"
+  exit 1
 fi
 
 #SQlite3用コマンドファイル
@@ -42,8 +42,8 @@ EOF
 "${wk_dir}"/abToSqlite.rb
 if [ $? -ne 0 ];
 then
-    echo "ERR : abToSqlite.rb aborted"
-    exit 1
+  echo "ERR:abToSqlite.rb aborted"
+  exit 1
 fi
 
 #END TRANSACTION
@@ -53,11 +53,10 @@ echo "END TRANSACTION;" >>"${command}"
 sqlite3 "${ab_sqlite}" < "${command}"
 if [ $? -ne 0 ];
 then
-    echo "ERR : sqlite3 failed"
-    exit 1
+  echo "ERR:sqlite3 failed"
+  exit 1
 else
-    echo "INF : sqlite3 converted"
-    rm "${command}"
+  rm "${command}"
 fi
 
 #終了

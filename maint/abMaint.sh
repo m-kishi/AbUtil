@@ -5,7 +5,7 @@
 wk_dir=`dirname $0`
 if [ ! -d "${wk_dir}" ];
 then
-  echo "ERR : ${wk_dir} not exist"
+  echo "ERR:${wk_dir} not exist"
   exit 1
 fi
 
@@ -14,40 +14,39 @@ ab_new="${wk_dir}/abook.db"
 if [ -f "${ab_new}" ];
 then
   rm "${ab_new}"
-  echo "INF : `basename ${ab_new}` deleted"
 fi
 ab_src="${HOME}/Dropbox/App/Abook/Abook.db"
 if [ ! -f "${ab_src}" ];
 then
-  echo "ERR : ${ab_src} not exist"
+  echo "ERR:${ab_src} not exist"
   exit 1
 fi
 cp -p "${ab_src}" "${ab_new}"
 if [ $? -ne 0 ] || [ ! -f "${ab_new}" ];
 then
-  echo "ERR : `basename ${ab_src}` copy failed"
+  echo "ERR:`basename ${ab_src}` copy failed"
   exit 1
 fi
-echo "INF : `basename ${ab_src}` copied"
 
 # 出力生成
 output="${wk_dir}/output.txt"
 if [ -f "${output}" ];
 then
   rm "${output}"
-  echo "INF : `basename ${output}` deleted"
 fi
 "${wk_dir}"/abMaint.rb > "${output}"
 if [ $? -ne 0 ];
 then
-  echo "ERR : abMaint.rb failed"
+  echo "ERR:abMaint.rb failed"
   exit 1
 elif [ ! -f "${output}" ];
 then
-  echo "ERR : `basename ${output}` not exist"
+  echo "ERR:`basename ${output}` not exist"
   exit 1
 fi
-echo "INF : output generated"
 
 # 終了
+echo "==============================="
+echo "OK"
+echo "==============================="
 exit 0

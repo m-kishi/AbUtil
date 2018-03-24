@@ -3,7 +3,7 @@
 
 require 'date'
 
-puts "STR : " + Time.now.to_s
+puts "STR:" + Time.now.to_s
 puts "=" * 31
 
 ok = true
@@ -22,4 +22,4 @@ end
 puts "OK" if ok
 
 puts "=" * 31
-puts "END : " + Time.now.to_s
+puts "END:" + Time.now.to_s
