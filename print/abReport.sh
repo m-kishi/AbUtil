@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 #Gemセット
-#$ gem install sqlite3 thinreports --no-ri --no-rdoc
 source "${HOME}/.rvm/scripts/rvm"
-rvm 2.1@AbUtil
+rvm 2.4@AbUtil
 
 #作業ディレクトリ
 wk_dir=`dirname $0`
