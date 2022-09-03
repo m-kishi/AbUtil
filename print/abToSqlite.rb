@@ -3,7 +3,7 @@
 
 require 'csv'
 
-abook = ENV["ab_new"]
+abook = ENV["db_file"]
 command = ENV["command"]
 
 insert = <<_EOF_
