@@ -1,35 +1,19 @@
 #!/usr/bin/env bash
+# -*- encoding: utf-8 -*-
 
 # 作業ディレクトリ
 wk_dir=`dirname $0`
-if [ ! -d "${wk_dir}" ];
-then
-  echo "ERR:${wk_dir} not exist"
-  exit 1
-fi
 
-# 既存DBファイルを削除
-ab_new="${wk_dir}/abook.db"
-if [ -f "${ab_new}" ];
+# DBファイル存在チェック
+db_file="../abook/Abook.db"
+if [ ! -f "${db_file}" ];
 then
-  rm "${ab_new}"
-fi
-
-# 最新のAbook.dbを取得
-ab_src="${HOME}/Dropbox/App/Abook/Abook.db"
-if [ ! -f "${ab_src}" ];
-then
-  echo "ERR:${ab_src} not exist"
-  exit 1
-fi
-cp -p "${ab_src}" "${ab_new}"
-if [ $? -ne 0 ] || [ ! -f "${ab_new}" ];
-then
-  echo "ERR:`basename ${ab_src}` copy failed"
+  echo "ERR:Abook.db not found"
   exit 1
 fi
 
 # チェック実行
+export db_file
 "${wk_dir}"/abDbchk.rb
 if [ $? -ne 0 ];
 then

@@ -1,48 +1,27 @@
 #!/usr/bin/env bash
+# -*- encoding: utf-8 -*-
 
-#Gemセット
-source "${HOME}/.rvm/scripts/rvm"
-rvm 2.4@AbUtil
-
-#作業ディレクトリ
+# 作業ディレクトリ
 wk_dir=`dirname $0`
-if [ ! -d "${wk_dir}" ];
+
+# DBファイル存在チェック
+db_file="../abook/Abook.db"
+if [ ! -f "${db_file}" ];
 then
-  echo "ERR:${wk_dir} not exist"
+  echo "ERR:Abook.db not found"
   exit 1
 fi
 
-#既存のDBファイルを削除
-ab_new="${wk_dir}/abook.db"
-if [ -f "${ab_new}" ];
-then
-  rm "${ab_new}"
-fi
-
-#最新のAbook.dbを取得
-ab_src="${HOME}/Dropbox/App/Abook/Abook.db"
-if [ ! -f "${ab_src}" ];
-then
-  echo "ERR:${ab_src} not exist"
-  exit 1
-fi
-cp -p "${ab_src}" "${ab_new}"
-if [ $? -ne 0 ] || [ ! -f "${ab_new}" ];
-then
-  echo "ERR:`basename ${ab_src}` copy failed"
-  exit 1
-fi
-
-#既存のsqlite3ファイルを削除
+# 既存の sqlite3 ファイルを削除
 ab_sqlite="${wk_dir}/abook.sqlite3"
 if [ -f "${ab_sqlite}" ];
 then
     rm "${ab_sqlite}"
 fi
 
-#abook.db -> abook.sqlite3へ変換
+# Abook.db -> abook.sqlite3 へ変換
 export wk_dir
-export ab_new
+export db_file
 export ab_sqlite
 "${wk_dir}"/abToSqlite.sh
 if [ $? -ne 0 ] || [ ! -f "${ab_sqlite}" ];
@@ -51,7 +30,7 @@ then
   exit 1
 fi
 
-#帳票を出力
+# 帳票を出力
 summary_pdf="${wk_dir}/summary.pdf"
 balance_pdf="${wk_dir}/balance.pdf"
 "${wk_dir}"/abReport.rb
@@ -68,13 +47,9 @@ then
   echo "ERR:`basename ${balance_pdf}` not exist"
   exit 1
 fi
+
+# 終了
 echo "==============================="
 echo "OK"
 echo "==============================="
-
-#帳票を表示
-open "${summary_pdf}"
-open "${balance_pdf}"
-
-#終了
 exit 0

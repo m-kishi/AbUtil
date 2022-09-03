@@ -1,34 +1,35 @@
 #!/usr/bin/env bash
+# -*- encoding: utf-8 -*-
 
-#作業用ディレクトリ
+# 作業用ディレクトリ
 if [ -z "${wk_dir}" ];
 then
   echo "ERR:\$wk_dir not exported"
   exit 1
 fi
 
-#abook.db
-if [ -z "${ab_new}" ];
+# Abook.db
+if [ -z "${db_file}" ];
 then
-  echo "ERR:\$ab_new not exported"
+  echo "ERR:\$db_file not exported"
   exit 1
 fi
 
-#abook.sqlite3
+# abook.sqlite3
 if [ -z "${ab_sqlite}" ];
 then
   echo "ERR:\$ab_sqlite not exported"
   exit 1
 fi
 
-#SQlite3用コマンドファイル
+# SQlite3用コマンドファイル
 command="${wk_dir}/command.sql"
 export command
 
-#BEGIN TRANSACTION
+# BEGIN TRANSACTION
 echo "BEGIN TRANSACTION;" >"${command}"
 
-#CREATE TABLE
+# CREATE TABLE
 cat >>"${command}" <<EOF
 CREATE TABLE expenses (
     "date" DATE
@@ -38,7 +39,7 @@ CREATE TABLE expenses (
 );
 EOF
 
-#INSERT INTO
+# INSERT
 "${wk_dir}"/abToSqlite.rb
 if [ $? -ne 0 ];
 then
@@ -46,10 +47,10 @@ then
   exit 1
 fi
 
-#END TRANSACTION
+# END TRANSACTION
 echo "END TRANSACTION;" >>"${command}"
 
-#変換実行
+# 変換実行
 sqlite3 "${ab_sqlite}" < "${command}"
 if [ $? -ne 0 ];
 then

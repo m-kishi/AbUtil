@@ -1,21 +1,23 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    pdf-core (0.7.0)
-    prawn (2.2.2)
-      pdf-core (~> 0.7.0)
-      ttfunk (~> 1.5)
-    sqlite3 (1.3.13)
-    thinreports (0.10.2)
-      prawn (~> 2.2.0)
-    ttfunk (1.5.1)
+    pdf-core (0.9.0)
+    prawn (2.4.0)
+      pdf-core (~> 0.9.0)
+      ttfunk (~> 1.7)
+    rexml (3.2.5)
+    sqlite3 (1.4.4)
+    thinreports (0.12.1)
+      prawn (~> 2.2)
+      rexml
+    ttfunk (1.7.0)
 
 PLATFORMS
-  ruby
+  aarch64-linux
 
 DEPENDENCIES
   sqlite3
   thinreports
 
 BUNDLED WITH
-   1.16.1
+   2.2.3
