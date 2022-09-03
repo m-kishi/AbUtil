@@ -10,9 +10,10 @@ Expense = Struct.new(:date, :name, :type, :cost) do
   end
 end
 
-# abook.db読み込み
+# Abook.db読み込み
+abook = ENV["db_file"]
 expenses = []
-File.open("abook.db", "r") do |f|
+File.open(abook, "r") do |f|
   f.each_line do |line|
     line = line.gsub("\"", "")
     args = line.split(",")

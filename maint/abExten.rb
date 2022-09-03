@@ -16,7 +16,7 @@ end
 
 class String
 
-  #マルチバイトサイズ
+  # マルチバイトサイズ
   def mb_size
     each_char.map {|c| c.bytesize == 1 ? 1 : 2 }.reduce(0, &:+)
   end
