@@ -108,6 +108,7 @@ report.list(:balance_list) do |list|
     footer.item(:expense).value = sub[:expense].to_currency
     footer.item(:special).value = sub[:special].to_currency
     footer.item(:balance).value = sub[:balance].to_currency
+    footer.item(:finance).value = sub[:finance].to_currency
 
     sub = Hash.new(0)
   end
@@ -118,6 +119,7 @@ report.list(:balance_list) do |list|
     footer.item(:expense).value = total[:expense].to_currency
     footer.item(:special).value = total[:special].to_currency
     footer.item(:balance).value = total[:balance].to_currency
+    footer.item(:finance).value = total[:finance].to_currency
   end
 
   sql = File.open('balance.sql').read
@@ -131,25 +133,29 @@ report.list(:balance_list) do |list|
         expense = row["expense"].to_i
         special = row["special"].to_i
         balance = row["balance"].to_i
+        finance = row["finance"].to_i
 
         list.add_row year: year,
                      earn: earn.to_currency,
                      bonus: bonus.to_currency,
                      expense: expense.to_currency,
                      special: special.to_currency,
-                     balance: balance.to_currency
+                     balance: balance.to_currency,
+                     finance: finance.to_currency
 
         sub[:earn   ] += earn
         sub[:bonus  ] += bonus
         sub[:expense] += expense
         sub[:special] += special
         sub[:balance] += balance
+        sub[:finance] += finance
 
         total[:earn   ] += earn
         total[:bonus  ] += bonus
         total[:expense] += expense
         total[:special] += special
         total[:balance] += balance
+        total[:finance] += finance
       end
     end
   end

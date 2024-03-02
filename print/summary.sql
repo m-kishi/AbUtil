@@ -18,8 +18,9 @@ SELECT
   , SUM(CASE type WHEN '特出'   THEN cost ELSE 0 END) AS spcl
   , SUM(CASE type WHEN '秘密入' THEN cost ELSE 0 END) AS prvi
   , SUM(CASE type WHEN '秘密出' THEN cost ELSE 0 END) AS prvo
-  , SUM(CASE WHEN type NOT IN ('収入', '特入', '特出', '秘密入', '秘密出') THEN cost ELSE 0 END) AS ttal
-  , SUM(CASE WHEN type = '収入' THEN cost WHEN type NOT IN('収入', '特入', '特出', '秘密入', '秘密出') THEN -cost ELSE 0 END) AS blnc
+  , SUM(CASE type WHEN '投資'   THEN cost ELSE 0 END) AS fnce
+  , SUM(CASE WHEN type NOT IN ('収入', '特入', '特出', '秘密入', '秘密出', '投資') THEN cost ELSE 0 END) AS ttal
+  , SUM(CASE WHEN type = '収入' THEN cost WHEN type NOT IN('収入', '特入', '特出', '秘密入', '秘密出', '投資') THEN -cost ELSE 0 END) AS blnc
 FROM
     expenses
 GROUP BY
