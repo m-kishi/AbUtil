@@ -3,6 +3,8 @@ abook/Abook.db
 maint/abook.db
 maint/pair.txt
 
+phone/*.html
+
 print/abook.db
 print/abook.sqlite3
 print/summary.pdf
