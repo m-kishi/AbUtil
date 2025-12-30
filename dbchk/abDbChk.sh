@@ -14,7 +14,7 @@ fi
 
 # チェック実行
 export db_file
-"${wk_dir}"/abDbchk.rb
+"${wk_dir}"/abDbChk.rb
 if [ $? -ne 0 ];
 then
   echo "ERR:abDbchk failed"
