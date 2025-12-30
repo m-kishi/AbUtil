@@ -1,11 +1,5 @@
 abook/Abook.db
-
-maint/abook.db
-maint/pair.txt
-
-phone/*.html
-
-print/abook.db
+maint/maint.txt
 print/abook.sqlite3
 print/summary.pdf
 print/balance.pdf

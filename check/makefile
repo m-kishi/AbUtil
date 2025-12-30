@@ -1,2 +1,2 @@
 all: *.rb *.sh
-	./abDbChk.sh
+	./check.sh

@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # -* encoding: utf-8 -*-
-
 require 'csv'
 
 abook = ENV["db_file"]

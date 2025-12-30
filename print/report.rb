@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
-
 require 'sqlite3'
 require 'thinreports'
-require './abCurrency.rb'
+require '../utils/utils.rb'
 
 ######################################################################
 # 収支表(月次)
@@ -91,7 +90,6 @@ report.list(:summary_list) do |list|
   end
 end
 report.generate(:filename => 'summary.pdf')
-
 
 ######################################################################
 # 収支表(年次)

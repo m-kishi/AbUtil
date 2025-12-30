@@ -14,10 +14,10 @@ fi
 
 # チェック実行
 export db_file
-"${wk_dir}"/abDbChk.rb
+"${wk_dir}"/check.rb
 if [ $? -ne 0 ];
 then
-  echo "ERR:abDbchk failed"
+  echo "ERR:check failed"
   exit 1
 fi
 

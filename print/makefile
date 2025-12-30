@@ -1,5 +1,5 @@
 all: *.rb *.sh *.sql *.tlf
-	./abReport.sh
+	./report.sh
 
 pdf: summary.pdf balance.pdf
 	cp summary.pdf ${HOME}/Dropbox/App/Abook/Summary.pdf
