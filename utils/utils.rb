@@ -30,7 +30,7 @@ class Integer
     if self >= 0
       symbol + self.to_s.reverse.gsub(/(\d{3})(?=\d)/,'\1,').reverse
     else
-      symbol + self.abs.to_s.reverse.gsub(/(\d{3})(?=\d)/,'\1,').reverse
+      '-' + symbol + self.abs.to_s.reverse.gsub(/(\d{3})(?=\d)/,'\1,').reverse
     end
   end
 
