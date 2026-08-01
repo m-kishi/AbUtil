@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
-
 require 'sqlite3'
 require 'thinreports'
-require './abCurrency.rb'
+require '../utils/utils.rb'
 
 ######################################################################
 # 収支表(月次)
@@ -92,7 +91,6 @@ report.list(:summary_list) do |list|
 end
 report.generate(:filename => 'summary.pdf')
 
-
 ######################################################################
 # 収支表(年次)
 ######################################################################
@@ -109,6 +107,7 @@ report.list(:balance_list) do |list|
     footer.item(:special).value = sub[:special].to_currency
     footer.item(:balance).value = sub[:balance].to_currency
     footer.item(:finance).value = sub[:finance].to_currency
+    footer.item(:summary).value = sub[:summary].to_currency
 
     sub = Hash.new(0)
   end
@@ -120,6 +119,7 @@ report.list(:balance_list) do |list|
     footer.item(:special).value = total[:special].to_currency
     footer.item(:balance).value = total[:balance].to_currency
     footer.item(:finance).value = total[:finance].to_currency
+    footer.item(:summary).value = total[:summary].to_currency
   end
 
   sql = File.open('balance.sql').read
@@ -134,6 +134,7 @@ report.list(:balance_list) do |list|
         special = row["special"].to_i
         balance = row["balance"].to_i
         finance = row["finance"].to_i
+        summary = balance + finance
 
         list.add_row year: year,
                      earn: earn.to_currency,
@@ -141,21 +142,24 @@ report.list(:balance_list) do |list|
                      expense: expense.to_currency,
                      special: special.to_currency,
                      balance: balance.to_currency,
-                     finance: finance.to_currency
+                     finance: finance.to_currency,
+                     summary: summary.to_currency
 
         sub[:earn   ] += earn
         sub[:bonus  ] += bonus
         sub[:expense] += expense
         sub[:special] += special
         sub[:balance] += balance
-        sub[:finance] += finance
+        sub[:finance]  = finance
+        sub[:summary]  = balance + finance
 
         total[:earn   ] += earn
         total[:bonus  ] += bonus
         total[:expense] += expense
         total[:special] += special
         total[:balance] += balance
-        total[:finance] += finance
+        total[:finance]  = finance
+        total[:summary]  = total[:balance] + finance
       end
     end
   end

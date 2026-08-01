@@ -8,7 +8,7 @@ then
   exit 1
 fi
 
-# Abook.db
+# DBファイル
 if [ -z "${db_file}" ];
 then
   echo "ERR:\$db_file not exported"
@@ -16,9 +16,9 @@ then
 fi
 
 # abook.sqlite3
-if [ -z "${ab_sqlite}" ];
+if [ -z "${sqlite}" ];
 then
-  echo "ERR:\$ab_sqlite not exported"
+  echo "ERR:\$sqlite not exported"
   exit 1
 fi
 
@@ -40,10 +40,10 @@ CREATE TABLE expenses (
 EOF
 
 # INSERT
-"${wk_dir}"/abToSqlite.rb
+"${wk_dir}"/to_sqlite.rb
 if [ $? -ne 0 ];
 then
-  echo "ERR:abToSqlite.rb aborted"
+  echo "ERR:to_sqlite.rb aborted"
   exit 1
 fi
 
@@ -51,7 +51,7 @@ fi
 echo "END TRANSACTION;" >>"${command}"
 
 # 変換実行
-sqlite3 "${ab_sqlite}" < "${command}"
+sqlite3 "${sqlite}" < "${command}"
 if [ $? -ne 0 ];
 then
   echo "ERR:sqlite3 failed"

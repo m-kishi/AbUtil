@@ -14,19 +14,19 @@ fi
 
 # 出力生成
 export db_file
-output="${wk_dir}/output.txt"
-if [ -f "${output}" ];
+maint_file="${wk_dir}/maint.txt"
+if [ -f "${maint_file}" ];
 then
-  rm "${output}"
+  rm "${maint_file}"
 fi
-"${wk_dir}"/abMaint.rb > "${output}"
+"${wk_dir}"/maint.rb > "${maint_file}"
 if [ $? -ne 0 ];
 then
-  echo "ERR:abMaint.rb failed"
+  echo "ERR:maint.rb failed"
   exit 1
-elif [ ! -f "${output}" ];
+elif [ ! -f "${maint_file}" ];
 then
-  echo "ERR:`basename ${output}` not exist"
+  echo "ERR:`basename ${maint_file}` not exist"
   exit 1
 fi
 
